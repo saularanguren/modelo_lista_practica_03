@@ -13,6 +13,7 @@
 // Completen la implementacion de esta estructura.
 // ====================================================================
 
+// Constructor del nodo, inicializa el dato y los punteros a nullptr.
 ListaMensajes::Nodo::Nodo(const TextMessage& mensaje)
     : dato(mensaje), siguiente(nullptr), anterior()
 {
@@ -26,8 +27,10 @@ ListaMensajes::ListaMensajes()
 ListaMensajes::ListaMensajes(const ListaMensajes& otra)
     : cabeza(nullptr), cola(nullptr), cantidad(0)
 {
-    // TODO: completar.
-    (void)otra;
+    for (std::shared_ptr<Nodo> actual = otra.cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        agregarAlFinal(actual->dato);
+    }
 }
 
 ListaMensajes& ListaMensajes::operator=(const ListaMensajes& otra)
@@ -38,10 +41,9 @@ ListaMensajes& ListaMensajes::operator=(const ListaMensajes& otra)
 }
 
 ListaMensajes::ListaMensajes(ListaMensajes&& otra) noexcept
-    : cabeza(nullptr), cola(nullptr), cantidad(0)
+    : cabeza(std::move(otra.cabeza)), cola(std::move(otra.cola)), cantidad(otra.cantidad)
 {
-    // TODO: completar.
-    (void)otra;
+    otra.cantidad = 0;
 }
 
 ListaMensajes& ListaMensajes::operator=(ListaMensajes&& otra) noexcept
@@ -51,16 +53,15 @@ ListaMensajes& ListaMensajes::operator=(ListaMensajes&& otra) noexcept
     return *this;
 }
 
+
 bool ListaMensajes::vacia() const
 {
-
-    return false;
+    return cabeza == nullptr;
 }
 
 std::size_t ListaMensajes::tamanio() const
 {
-    // TODO: completar.
-    return 0;
+    return cantidad;
 }
 
 bool ListaMensajes::agregarAlFinal(const TextMessage& mensaje)
