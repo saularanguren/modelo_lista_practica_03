@@ -11,9 +11,10 @@
 // Completen main.cpp con la demostracion propia del grupo.
 // ====================================================================
 
-int main()
-{
-    // TODO: completar.
-    std::cout << "TODO: completar main.cpp con la demostracion del grupo." << std::endl;
-    return 0;
+int main() {
+  // TODO: completar.
+  std::cout << "TODO: completar main.cpp con la demostracion del grupo."
+            << std::endl;
+  std::cout << "hola";
+  return 0;
 }
