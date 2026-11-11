@@ -93,26 +93,68 @@ bool ListaMensajes::agregarAlFinal(const TextMessage& mensaje)
 
 bool ListaMensajes::agregarAlInicio(const TextMessage& mensaje)
 {
-    Nodo* nuevo = new Nodo(mensaje);
-    if(cabeza == nullptr){
-        cabeza nuevo;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == mensaje.getId())
+        {
+            return false;
+        }
+    }
+
+    std::shared_ptr<Nodo> nuevo = std::make_shared<Nodo>(mensaje);
+    if (cabeza == nullptr)
+    {
+        cabeza = nuevo;
         cola = nuevo;
-    } else {
+    }
+    else
+    {
         nuevo->siguiente = cabeza;
         cabeza->anterior = nuevo;
         cabeza = nuevo;
     }
-    // if(!nuevo->dato == nullptr) return true;
-    // (void)mensaje;
-    return false;
+
+    ++cantidad;
+    return true;
 }
 
 bool ListaMensajes::insertarDespuesDe(int idReferencia, const TextMessage& mensaje)
 {
-    // TODO: completar.
-    (void)idReferencia;
-    (void)mensaje;
-    return false;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == mensaje.getId())
+        {
+            return false;
+        }
+    }
+
+    std::shared_ptr<Nodo> actual = cabeza;
+    while (actual != nullptr && actual->dato.getId() != idReferencia)
+    {
+        actual = actual->siguiente;
+    }
+
+    if (actual == nullptr)
+    {
+        return false;
+    }
+
+    std::shared_ptr<Nodo> nuevo = std::make_shared<Nodo>(mensaje);
+    nuevo->anterior = actual;
+    nuevo->siguiente = actual->siguiente;
+
+    if (actual->siguiente != nullptr)
+    {
+        actual->siguiente->anterior = nuevo;
+    }
+    else
+    {
+        cola = nuevo;
+    }
+
+    actual->siguiente = nuevo;
+    ++cantidad;
+    return true;
 }
 
 bool ListaMensajes::eliminarPorId(int id)

@@ -1,24 +1,19 @@
-#include "ListaMensajes.hpp"
-#include "nucleo/TextMessage.hpp"
 #include <iostream>
 
-// ====================================================================
-// PRACTICA EVALUADA 03 - MODELO A (LISTA DOBLEMENTE ENLAZADA)
-// Integrantes:
-//   1. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
-//   2. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
-//   3. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
-//   4. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
-// ====================================================================
-// Completen main.cpp con la demostracion propia del grupo.
-// ====================================================================
+#include "ListaMensajes.hpp"
 
-int main() {
-    User A(12, "pepe","");
-    TextMessage Ms1(12, 12, "hola");
-    ListaMensajes ListaA;
-    ListaA.agregarAlInicio();
+int main()
+{
+    ListaMensajes mensajes;
 
+    TextMessage mensaje1(1, "user1", "Hola");
+    TextMessage mensaje2(2, "user2", "¿Cómo estás?");
+    TextMessage mensaje3(3, "user3", "¡Bienvenido!");
 
-  return 0;
+    mensajes.agregarAlInicio(mensaje1);
+    mensajes.agregarAlFinal(mensaje2);  
+    mensajes.agregarAlInicio(mensaje3);
+
+    
+
 }
