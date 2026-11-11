@@ -22,6 +22,16 @@ ChatLista::ChatLista(int id, std::string nombre, std::vector<std::string> partic
 bool ChatLista::enviarMensaje(TextMessage mensaje)
 {
     // TODO: completar.
+    auto participants = getParticipants();
+    
+    for(auto participant : participants)
+    {
+        if (participant == mensaje.getSender())
+        {
+            return false;
+        }
+    }
+
     (void)mensaje;
     return false;
 }
