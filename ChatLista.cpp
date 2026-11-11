@@ -61,5 +61,5 @@ std::size_t ChatLista::cantidadMensajes() const
 std::string ChatLista::resumen() const
 {
     
-    return getNombre() + " (" + std::to_string(cantidadMensajes()) + " mensajes)";
+    return "Chat " + getNombre() + " (" + std::to_string(cantidadMensajes()) + " mensajes)";
 }
