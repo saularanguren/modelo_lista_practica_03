@@ -65,18 +65,30 @@ std::size_t ListaMensajes::tamanio() const
 
 bool ListaMensajes::agregarAlFinal(const TextMessage& mensaje)
 {
-    Nodo* nuevo = new Nodo(mensaje);
-    if(cabeza == nullptr){
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == mensaje.getId())
+        {
+            return false;
+        }
+    }
+
+    std::shared_ptr<Nodo> nuevo = std::make_shared<Nodo>(mensaje);
+
+    if (cabeza == nullptr)
+    {
         cabeza = nuevo;
         cola = nuevo;
-    } else {
+    }
+    else
+    {
         nuevo->anterior = cola;
         cola->siguiente = nuevo;
         cola = nuevo;
     }
-    if(!nuevo->dato == nullptr) return true;
-    (void)mensaje;
-    return false;
+
+    ++cantidad;
+    return true;
 }
 
 bool ListaMensajes::agregarAlInicio(const TextMessage& mensaje)
@@ -90,8 +102,8 @@ bool ListaMensajes::agregarAlInicio(const TextMessage& mensaje)
         cabeza->anterior = nuevo;
         cabeza = nuevo;
     }
-    if(!nuevo->dato == nullptr) return true;
-    (void)mensaje;
+    // if(!nuevo->dato == nullptr) return true;
+    // (void)mensaje;
     return false;
 }
 

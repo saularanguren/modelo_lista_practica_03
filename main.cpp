@@ -1,3 +1,5 @@
+#include "ListaMensajes.hpp"
+#include "nucleo/TextMessage.hpp"
 #include <iostream>
 
 // ====================================================================
@@ -12,9 +14,11 @@
 // ====================================================================
 
 int main() {
-  // TODO: completar.
-  std::cout << "TODO: completar main.cpp con la demostracion del grupo."
-            << std::endl;
-  std::cout << "hola";
+    User A(12, "pepe","");
+    TextMessage Ms1(12, 12, "hola");
+    ListaMensajes ListaA;
+    ListaA.agregarAlInicio();
+
+
   return 0;
 }
