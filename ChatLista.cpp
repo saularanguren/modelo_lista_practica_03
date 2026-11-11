@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <utility>
+#include <iostream>
 
 // ====================================================================
 // PRACTICA EVALUADA 03 - MODELO A (LISTA DOBLEMENTE ENLAZADA)
@@ -21,8 +22,6 @@ ChatLista::ChatLista(int id, std::string nombre, std::vector<std::string> partic
 
 bool ChatLista::enviarMensaje(TextMessage mensaje)
 {
-    // TODO: completar.
-
     if (!isParticipant(mensaje.getSenderId()))
     {
         return false;
@@ -41,20 +40,27 @@ bool ChatLista::enviarMensaje(TextMessage mensaje)
     mensaje.markSent(getId());
     historial.agregarAlFinal(mensaje);
 
-    //(void)mensaje;
+    (void)mensaje;
     return true;
 }
 
 bool ChatLista::fijarMensaje(int id)
-{
-    // TODO: completar.
+{    
+    if (historial.buscarPorId(id) == nullptr)
+    {
+        return false;
+    }
+
+    historial.moverAlInicio(id);
+
     (void)id;
-    return false;
+    return true;
 }
 
 bool ChatLista::eliminarMensaje(int id)
 {
-    // TODO: completar.
+    historial.eliminarPorId(id);
+    
     (void)id;
     return false;
 }
