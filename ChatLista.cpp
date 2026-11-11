@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <utility>
+#include <iostream>
 
 // ====================================================================
 // PRACTICA EVALUADA 03 - MODELO A (LISTA DOBLEMENTE ENLAZADA)
@@ -21,21 +22,45 @@ ChatLista::ChatLista(int id, std::string nombre, std::vector<std::string> partic
 
 bool ChatLista::enviarMensaje(TextMessage mensaje)
 {
-    // TODO: completar.
+    if (!isParticipant(mensaje.getSenderId()))
+    {
+        return false;
+    }
+
+    if (historial.buscarPorId(mensaje.getId()) == nullptr)
+    {
+        return false;
+    }
+
+    if (mensaje.getStatus() != MessageStatus::Pending)
+    {
+        return false;
+    }
+
+    mensaje.markSent(getId());
+    historial.agregarAlFinal(mensaje);
+
     (void)mensaje;
-    return false;
+    return true;
 }
 
 bool ChatLista::fijarMensaje(int id)
-{
-    // TODO: completar.
+{    
+    if (historial.buscarPorId(id) == nullptr)
+    {
+        return false;
+    }
+
+    historial.moverAlInicio(id);
+
     (void)id;
-    return false;
+    return true;
 }
 
 bool ChatLista::eliminarMensaje(int id)
 {
-    // TODO: completar.
+    historial.eliminarPorId(id);
+    
     (void)id;
     return false;
 }
@@ -61,5 +86,5 @@ std::size_t ChatLista::cantidadMensajes() const
 std::string ChatLista::resumen() const
 {
     
-    return "Chat " + getNombre() + " (" + std::to_string(cantidadMensajes()) + " mensajes)";
+    return "Chat " + getTitle() + " (" + std::to_string(cantidadMensajes()) + " mensajes)";
 }
