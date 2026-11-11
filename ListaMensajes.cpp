@@ -53,7 +53,7 @@ ListaMensajes& ListaMensajes::operator=(ListaMensajes&& otra) noexcept
 
 bool ListaMensajes::vacia() const
 {
-    // TODO: completar.
+
     return false;
 }
 
@@ -65,14 +65,32 @@ std::size_t ListaMensajes::tamanio() const
 
 bool ListaMensajes::agregarAlFinal(const TextMessage& mensaje)
 {
-    // TODO: completar.
+    Nodo* nuevo = new Nodo(mensaje);
+    if(cabeza == nullptr){
+        cabeza = nuevo;
+        cola = nuevo;
+    } else {
+        nuevo->anterior = cola;
+        cola->siguiente = nuevo;
+        cola = nuevo;
+    }
+    if(!nuevo->dato == nullptr) return true;
     (void)mensaje;
     return false;
 }
 
 bool ListaMensajes::agregarAlInicio(const TextMessage& mensaje)
 {
-    // TODO: completar.
+    Nodo* nuevo = new Nodo(mensaje);
+    if(cabeza == nullptr){
+        cabeza nuevo;
+        cola = nuevo;
+    } else {
+        nuevo->siguiente = cabeza;
+        cabeza->anterior = nuevo;
+        cabeza = nuevo;
+    }
+    if(!nuevo->dato == nullptr) return true;
     (void)mensaje;
     return false;
 }

@@ -11,7 +11,7 @@
 // ====================================================================
 // PRACTICA EVALUADA 03 - MODELO A (LISTA DOBLEMENTE ENLAZADA)
 // Integrantes:
-//   1. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
+//   1. Nombre y Apellido - C.I. V-32591369- Rol:
 //   2. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
 //   3. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
 //   4. Nombre y Apellido - C.I. V-XXXXXXXX - Rol:
