@@ -42,24 +42,24 @@ bool ChatLista::eliminarMensaje(int id)
 
 const ListaMensajes& ChatLista::getHistorial() const
 {
-    // TODO: completar.
+    
     return historial;
 }
 
 ListaMensajes& ChatLista::getHistorial()
 {
-    // TODO: completar.
+    
     return historial;
 }
 
 std::size_t ChatLista::cantidadMensajes() const
 {
-    // TODO: completar.
-    return 0;
+    
+    return historial.tamanio();
 }
 
 std::string ChatLista::resumen() const
 {
-    // TODO: completar.
-    return "";
+    
+    return "Chat " + getNombre() + " (" + std::to_string(cantidadMensajes()) + " mensajes)";
 }
