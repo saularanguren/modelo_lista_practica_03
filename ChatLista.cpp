@@ -37,8 +37,15 @@ bool ChatLista::enviarMensaje(TextMessage mensaje)
         return false;
     }
 
-    mensaje.markSent(getId());
-    historial.agregarAlFinal(mensaje);
+    if (!mensaje.markSent(getId()))
+    {
+        return false;
+    }
+
+    if (!historial.agregarAlFinal(mensaje))
+    {
+        return false;
+    }
 
     (void)mensaje;
     return true;
@@ -51,7 +58,10 @@ bool ChatLista::fijarMensaje(int id)
         return false;
     }
 
-    historial.moverAlInicio(id);
+    if (!historial.moverAlInicio(id))
+    {
+        return false;
+    }
 
     (void)id;
     return true;
@@ -59,10 +69,13 @@ bool ChatLista::fijarMensaje(int id)
 
 bool ChatLista::eliminarMensaje(int id)
 {
-    historial.eliminarPorId(id);
+    if (!historial.eliminarPorId(id))
+    {
+        return false;
+    }
     
     (void)id;
-    return false;
+    return true;
 }
 
 const ListaMensajes& ChatLista::getHistorial() const
