@@ -14,6 +14,12 @@ int main()
     mensajes.agregarAlFinal(mensaje2);  
     mensajes.agregarAlInicio(mensaje3);
 
-    
+    // std::cout << "Mensajes en la lista:" << std::endl;
+    // mensajes.recorrer([](const TextMessage& mensaje) {
+    //     std::cout << "ID: " << mensaje.getId() << ", Remitente: " << mensaje.getSenderId() << ", Contenido: " << mensaje.getContent() << std::endl;
+    // });
+
+    std::cout << mensajes.tamanio() << std::endl; 
+    std::cout << mensajes.
 
 }

@@ -210,8 +210,13 @@ TextMessage* ListaMensajes::buscarPorId(int id)
 
 const TextMessage* ListaMensajes::buscarPorId(int id) const
 {
-    // TODO: completar.
-    (void)id;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == id)
+        {
+            return &actual->dato;
+        }
+    }
     return nullptr;
 }
 
