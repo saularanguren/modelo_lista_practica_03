@@ -1,5 +1,6 @@
 /main
 /test_modelo
 *.o
+*.obj
 *.exe
-*main
+*.out

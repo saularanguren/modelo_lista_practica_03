@@ -159,15 +159,51 @@ bool ListaMensajes::insertarDespuesDe(int idReferencia, const TextMessage& mensa
 
 bool ListaMensajes::eliminarPorId(int id)
 {
-    // TODO: completar.
-    (void)id;
-    return false;
+    std::shared_ptr<Nodo> actual = cabeza;
+    while (actual != nullptr && actual->dato.getId() != id)
+    {
+        actual = actual->siguiente;
+    }
+
+    if (actual == nullptr)
+    {
+        return false;
+    }
+
+    std::shared_ptr<Nodo> anterior = actual->anterior.lock();
+    if (anterior != nullptr)
+    {
+        anterior->siguiente = actual->siguiente;
+    }
+    else
+    {
+        cabeza = actual->siguiente;
+    }
+
+    if (actual->siguiente != nullptr)
+    {
+        actual->siguiente->anterior = anterior;
+    }
+    else
+    {
+        cola = anterior;
+    }
+
+    actual->siguiente.reset();
+    actual->anterior.reset();
+    --cantidad;
+    return true;
 }
 
 TextMessage* ListaMensajes::buscarPorId(int id)
 {
-    // TODO: completar.
-    (void)id;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == id)
+        {
+            return &actual->dato;
+        }
+    }
     return nullptr;
 }
 
