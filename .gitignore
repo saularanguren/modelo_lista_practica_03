@@ -1,0 +1,5 @@
+/main
+/test_modelo
+*.o
+*.exe
+*main
