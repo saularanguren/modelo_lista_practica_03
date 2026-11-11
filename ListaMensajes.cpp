@@ -13,6 +13,7 @@
 // Completen la implementacion de esta estructura.
 // ====================================================================
 
+// Constructor del nodo, inicializa el dato y los punteros a nullptr.
 ListaMensajes::Nodo::Nodo(const TextMessage& mensaje)
     : dato(mensaje), siguiente(nullptr), anterior()
 {
@@ -26,8 +27,10 @@ ListaMensajes::ListaMensajes()
 ListaMensajes::ListaMensajes(const ListaMensajes& otra)
     : cabeza(nullptr), cola(nullptr), cantidad(0)
 {
-    // TODO: completar.
-    (void)otra;
+    for (std::shared_ptr<Nodo> actual = otra.cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        agregarAlFinal(actual->dato);
+    }
 }
 
 ListaMensajes& ListaMensajes::operator=(const ListaMensajes& otra)
@@ -38,10 +41,9 @@ ListaMensajes& ListaMensajes::operator=(const ListaMensajes& otra)
 }
 
 ListaMensajes::ListaMensajes(ListaMensajes&& otra) noexcept
-    : cabeza(nullptr), cola(nullptr), cantidad(0)
+    : cabeza(std::move(otra.cabeza)), cola(std::move(otra.cola)), cantidad(otra.cantidad)
 {
-    // TODO: completar.
-    (void)otra;
+    otra.cantidad = 0;
 }
 
 ListaMensajes& ListaMensajes::operator=(ListaMensajes&& otra) noexcept
@@ -51,58 +53,170 @@ ListaMensajes& ListaMensajes::operator=(ListaMensajes&& otra) noexcept
     return *this;
 }
 
+
 bool ListaMensajes::vacia() const
 {
-    // TODO: completar.
-    return false;
+    return cabeza == nullptr;
 }
 
 std::size_t ListaMensajes::tamanio() const
 {
-    // TODO: completar.
-    return 0;
+    return cantidad;
 }
 
 bool ListaMensajes::agregarAlFinal(const TextMessage& mensaje)
 {
-    // TODO: completar.
-    (void)mensaje;
-    return false;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == mensaje.getId())
+        {
+            return false;
+        }
+    }
+
+    std::shared_ptr<Nodo> nuevo = std::make_shared<Nodo>(mensaje);
+
+    if (cabeza == nullptr)
+    {
+        cabeza = nuevo;
+        cola = nuevo;
+    }
+    else
+    {
+        nuevo->anterior = cola;
+        cola->siguiente = nuevo;
+        cola = nuevo;
+    }
+
+    ++cantidad;
+    return true;
 }
 
 bool ListaMensajes::agregarAlInicio(const TextMessage& mensaje)
 {
-    // TODO: completar.
-    (void)mensaje;
-    return false;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == mensaje.getId())
+        {
+            return false;
+        }
+    }
+
+    std::shared_ptr<Nodo> nuevo = std::make_shared<Nodo>(mensaje);
+    if (cabeza == nullptr)
+    {
+        cabeza = nuevo;
+        cola = nuevo;
+    }
+    else
+    {
+        nuevo->siguiente = cabeza;
+        cabeza->anterior = nuevo;
+        cabeza = nuevo;
+    }
+
+    ++cantidad;
+    return true;
 }
 
 bool ListaMensajes::insertarDespuesDe(int idReferencia, const TextMessage& mensaje)
 {
-    // TODO: completar.
-    (void)idReferencia;
-    (void)mensaje;
-    return false;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == mensaje.getId())
+        {
+            return false;
+        }
+    }
+
+    std::shared_ptr<Nodo> actual = cabeza;
+    while (actual != nullptr && actual->dato.getId() != idReferencia)
+    {
+        actual = actual->siguiente;
+    }
+
+    if (actual == nullptr)
+    {
+        return false;
+    }
+
+    std::shared_ptr<Nodo> nuevo = std::make_shared<Nodo>(mensaje);
+    nuevo->anterior = actual;
+    nuevo->siguiente = actual->siguiente;
+
+    if (actual->siguiente != nullptr)
+    {
+        actual->siguiente->anterior = nuevo;
+    }
+    else
+    {
+        cola = nuevo;
+    }
+
+    actual->siguiente = nuevo;
+    ++cantidad;
+    return true;
 }
 
 bool ListaMensajes::eliminarPorId(int id)
 {
-    // TODO: completar.
-    (void)id;
-    return false;
+    std::shared_ptr<Nodo> actual = cabeza;
+    while (actual != nullptr && actual->dato.getId() != id)
+    {
+        actual = actual->siguiente;
+    }
+
+    if (actual == nullptr)
+    {
+        return false;
+    }
+
+    std::shared_ptr<Nodo> anterior = actual->anterior.lock();
+    if (anterior != nullptr)
+    {
+        anterior->siguiente = actual->siguiente;
+    }
+    else
+    {
+        cabeza = actual->siguiente;
+    }
+
+    if (actual->siguiente != nullptr)
+    {
+        actual->siguiente->anterior = anterior;
+    }
+    else
+    {
+        cola = anterior;
+    }
+
+    actual->siguiente.reset();
+    actual->anterior.reset();
+    --cantidad;
+    return true;
 }
 
 TextMessage* ListaMensajes::buscarPorId(int id)
 {
-    // TODO: completar.
-    (void)id;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == id)
+        {
+            return &actual->dato;
+        }
+    }
     return nullptr;
 }
 
 const TextMessage* ListaMensajes::buscarPorId(int id) const
 {
-    // TODO: completar.
-    (void)id;
+    for (std::shared_ptr<Nodo> actual = cabeza; actual != nullptr; actual = actual->siguiente)
+    {
+        if (actual->dato.getId() == id)
+        {
+            return &actual->dato;
+        }
+    }
     return nullptr;
 }
 
