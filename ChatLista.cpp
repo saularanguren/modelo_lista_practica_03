@@ -22,18 +22,27 @@ ChatLista::ChatLista(int id, std::string nombre, std::vector<std::string> partic
 bool ChatLista::enviarMensaje(TextMessage mensaje)
 {
     // TODO: completar.
-    auto participants = getParticipants();
-    
-    for(auto participant : participants)
+
+    if (!isParticipant(mensaje.getSenderId()))
     {
-        if (participant == mensaje.getSender())
-        {
-            return false;
-        }
+        return false;
     }
 
-    (void)mensaje;
-    return false;
+    if (historial.buscarPorId(mensaje.getId()) == nullptr)
+    {
+        return false;
+    }
+
+    if (mensaje.getStatus() != MessageStatus::Pending)
+    {
+        return false;
+    }
+
+    mensaje.markSent(getId());
+    historial.agregarAlFinal(mensaje);
+
+    //(void)mensaje;
+    return true;
 }
 
 bool ChatLista::fijarMensaje(int id)
