@@ -1,5 +1,11 @@
 /main
 /test_modelo
+
+# editor
+.vscode/
+
+# ejecutables
+main
 *.o
 *.obj
 *.exe
