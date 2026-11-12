@@ -53,7 +53,6 @@ ListaMensajes& ListaMensajes::operator=(ListaMensajes&& otra) noexcept
     return *this;
 }
 
-
 bool ListaMensajes::vacia() const
 {
     return cabeza == nullptr;
@@ -222,14 +221,12 @@ const TextMessage* ListaMensajes::buscarPorId(int id) const
 
 const TextMessage* ListaMensajes::primero() const
 {
-    // TODO: completar.
-    return nullptr;
+    return (vacia()) ? nullptr : &(cabeza->dato);
 }
 
 const TextMessage* ListaMensajes::ultimo() const
 {
-    // TODO: completar.
-    return nullptr;
+    return (vacia()) ? nullptr : &(cola->dato);
 }
 
 bool ListaMensajes::moverAlInicio(int id)
@@ -241,20 +238,38 @@ bool ListaMensajes::moverAlInicio(int id)
 
 void ListaMensajes::recorrer(const std::function<void(const TextMessage&)>& funcion) const
 {
-    // TODO: completar.
-    (void)funcion;
+    std::shared_ptr<Nodo> actual = cabeza;
+
+    while(actual != nullptr)
+    {
+        funcion(actual->dato);
+        actual = actual->siguiente;
+    }
 }
 
 void ListaMensajes::recorrerInverso(const std::function<void(const TextMessage&)>& funcion) const
 {
-    // TODO: completar.
-    (void)funcion;
+    std::shared_ptr<Nodo> actual = cola;
+    
+    while(actual != nullptr)
+    {
+        funcion(actual->dato);
+        actual = actual->anterior.lock();
+    }
 }
 
 std::vector<int> ListaMensajes::ids() const
 {
-    // TODO: completar.
-    return {};
+    std::vector<int> resultado;
+    std::shared_ptr<Nodo> actual = cabeza;
+
+    while(actual != nullptr)
+    {
+        resultado.push_back(actual->dato.getId());
+        actual = actual->siguiente;
+    }
+
+    return resultado;
 }
 
 void ListaMensajes::limpiar()
