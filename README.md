@@ -1,8 +1,8 @@
 # Práctica Evaluada 03 — Modelo A: Lista Doblemente Enlazada
 
-[![MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![C++](https://img.shields.io/badge/C%2B%2B-00599C?logo=cplusplus&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
+[![MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 
 **Asignatura:** Programación 2 (PR2)
 
@@ -219,7 +219,6 @@ El proyecto cuenta con un `Makefile` configurado para compilar bajo el estándar
    make clean
    ```
    * *Qué hace:* Elimina los ejecutables generados (`main`, `test_modelo`), archivos objeto (`*.o`) y archivos CSV temporales.
-
 
 
 
