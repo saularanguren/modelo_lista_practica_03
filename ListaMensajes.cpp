@@ -232,9 +232,42 @@ const TextMessage* ListaMensajes::ultimo() const
 
 bool ListaMensajes::moverAlInicio(int id)
 {
-    // TODO: completar.
-    (void)id;
-    return false;
+    // Caso Base 1: si la lista vacia esta, no hay nada que hacer
+    if(vacia()) return false;
+
+    // Caso Base 2: si ya es el primer elemento no hacemos nada
+    if(cabeza->dato.getId() == id) return true;
+
+    // Buscar el id que se ha ingresado
+    std::shared_ptr<Nodo> actual = cabeza;
+    while(actual != nullptr && actual->dato.getId() != id)
+    {
+        actual = actual->siguiente;
+    }
+
+    // se ha llegado al final y no ha sido encontrado
+    if(actual == nullptr) return false;
+
+    std::shared_ptr<Nodo> anterior = actual->anterior.lock();
+
+    anterior->siguiente = actual->siguiente;
+
+    if(actual == cola) 
+    {
+        cola = anterior;
+    }
+    else
+    {
+        actual->siguiente->anterior = anterior;
+    }
+    
+    actual->siguiente = cabeza;
+    actual->anterior.reset();
+    cabeza->anterior = actual;
+
+    cabeza = actual;
+
+    return true;
 }
 
 void ListaMensajes::recorrer(const std::function<void(const TextMessage&)>& funcion) const
