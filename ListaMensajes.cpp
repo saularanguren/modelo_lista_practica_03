@@ -1,5 +1,6 @@
 #include "ListaMensajes.hpp"
 
+#include <fstream>
 #include <utility>
 
 // ====================================================================
@@ -317,6 +318,48 @@ bool ListaMensajes::cargarCSV(const std::string& ruta)
     limpiar();
 
     std::string linea;
+    const auto normalizarCSVSerializado = [](const std::string& texto) {
+        std::string normalizado;
+        normalizado.reserve(texto.size());
+        bool entreComillas = false;
+
+        for (std::size_t i = 0; i < texto.size(); ++i)
+        {
+            const char caracter = texto[i];
+
+            if (entreComillas && caracter == '\\' && i + 1 < texto.size() &&
+                (texto[i + 1] == '"' || texto[i + 1] == '\\'))
+            {
+                if (texto[i + 1] == '"')
+                {
+                    normalizado += "\"\"";
+                }
+                else
+                {
+                    normalizado += '\\';
+                }
+                ++i;
+                continue;
+            }
+
+            normalizado += caracter;
+            if (caracter == '"')
+            {
+                if (entreComillas && i + 1 < texto.size() && texto[i + 1] == '"')
+                {
+                    normalizado += '"';
+                    ++i;
+                }
+                else
+                {
+                    entreComillas = !entreComillas;
+                }
+            }
+        }
+
+        return normalizado;
+    };
+
     while (std::getline(archivo, linea))
     {
         if (linea.empty())
