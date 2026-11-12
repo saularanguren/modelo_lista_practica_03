@@ -274,19 +274,72 @@ std::vector<int> ListaMensajes::ids() const
 
 void ListaMensajes::limpiar()
 {
-    // TODO: completar.
+    while (cabeza)
+    {
+        std::shared_ptr<Nodo> siguiente = cabeza->siguiente;
+        cabeza->siguiente.reset();
+        cabeza = std::move(siguiente);
+    }
+
+    cola.reset();
+    cantidad = 0;
 }
 
 bool ListaMensajes::guardarCSV(const std::string& ruta) const
 {
-    // TODO: completar.
-    (void)ruta;
-    return false;
+    std::ofstream archivo(ruta);
+    if (!archivo.is_open())
+    {
+        return false;
+    }
+
+    for (std::shared_ptr<Nodo> actual = cabeza; actual; actual = actual->siguiente)
+    {
+        archivo << actual->dato.toCSV() << '\n';
+        if (!archivo)
+        {
+            return false;
+        }
+    }
+
+    archivo.flush();
+    return archivo.good();
 }
 
 bool ListaMensajes::cargarCSV(const std::string& ruta)
 {
-    // TODO: completar.
-    (void)ruta;
-    return false;
+    std::ifstream archivo(ruta);
+    if (!archivo.is_open())
+    {
+        return false;
+    }
+
+    limpiar();
+
+    std::string linea;
+    while (std::getline(archivo, linea))
+    {
+        if (linea.empty())
+        {
+            continue;
+        }
+
+        std::shared_ptr<Nodo> nuevo =
+            std::make_shared<Nodo>(TextMessage::fromCSV(normalizarCSVSerializado(linea)));
+        if (!cola)
+        {
+            cabeza = nuevo;
+            cola = nuevo;
+        }
+        else
+        {
+            nuevo->anterior = cola;
+            cola->siguiente = nuevo;
+            cola = nuevo;
+        }
+
+        ++cantidad;
+    }
+
+    return !archivo.bad();
 }
