@@ -27,7 +27,7 @@ bool ChatLista::enviarMensaje(TextMessage mensaje)
         return false;
     }
 
-    if (historial.buscarPorId(mensaje.getId()) == nullptr)
+    if (historial.buscarPorId(mensaje.getId()) != nullptr)
     {
         return false;
     }
